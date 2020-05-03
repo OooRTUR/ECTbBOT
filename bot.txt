@@ -6,7 +6,7 @@ from  telebot import  apihelper
 
 bot = telebot.TeleBot(config.TOKEN)
 
-apihelper.proxy = {'https':'socks5://95.110.194.245:15808'}
+apihelper.proxy = {'https':'socks5://157.230.154.241:9050'}
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
