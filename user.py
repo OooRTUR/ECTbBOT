@@ -18,6 +18,7 @@ def init_db(force: bool = False):
             age                 INTEGER,
             sex                 INTEGER,
             weight              REAL,
+            height              INTEGER,
             UNIQUE(telegram_id)
         )
     ''')
@@ -35,9 +36,7 @@ def set_lasttime(telegram_id: int, dt_last: str, force_commit: bool = True):
 
 
 def add_user(telegram_id: int, dt_created: str):
-    print('1')
     db.get_cursor().execute('INSERT OR IGNORE INTO user (telegram_id, datetime_created) VALUES (?, ?)', (telegram_id, dt_created))
-    print('2')
     set_lasttime(telegram_id, dt_created, False)
     db.get_connection().commit()
 
@@ -74,8 +73,19 @@ def set_user_weight(telegram_id, weight: float):
     db.get_connection().commit()
 
 
+def set_user_height(telegram_id, height: int):
+    sql = '''
+        UPDATE user
+        SET height = ?
+        WHERE telegram_id = ?
+    '''
+    db.get_cursor().execute(sql, (height, telegram_id))
+    db.get_connection().commit()
+
+
 if __name__ == '__main__':
-    init_db(force=True)
+    # init_db(force=True)
     # id = 5432132
     # add_user(id, serialize_datetime(datetime.now()))
     # set_user_age(id, 27)
+    pass

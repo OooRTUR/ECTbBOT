@@ -10,9 +10,10 @@ from telegram.utils.request import Request
 import user
 from datetime import datetime
 from utils import serialize_datetime
+from user_conv_start import get_conv_handler
 
 # SEX, AGE, WEIGHT, HEIGHT = range(4)
-SEX = range(1)
+
 
 formatstr = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 formatter = logging.Formatter(formatstr)
@@ -25,43 +26,8 @@ filehandler.setFormatter(formatter)
 logger.addHandler(filehandler)
 
 
-def start(update: Update, context: CallbackContext):
-    msg = '''
-        Добро пожаловать в естьбот!
-        Это бот, который поможет вам контроллировать ваше питание
-        Для инициализации вашей программы питания нужнно ввести ваши начальные показатели
-    '''
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
-    user.add_user(update.effective_user['id'], serialize_datetime(datetime.today()))
-    print(update.effective_user)
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Введите ваш возраст: ')
 
-def start(update, context):
-    reply_keyboard = [['Men', 'Women']]
-    update.message.reply_text(
-        'Добро пожаловать в естьбот!'
-        'Это бот, который поможет вам контроллировать ваше питание'
-        'Для инициализации вашей программы питания нужнно ввести ваши начальные показатели'
-        'Введите ваш пол: ',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-    return SEX
-
-def sex(update, context):
-    user = update.message.from_user
-    logger.info("Gender of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('На этом настройка бота завершена, приятного пользования!',
-                              reply_markup=ReplyKeyboardRemove())
-
-    return ConversationHandler.END
-
-def cancel(update, context):
-    user = update.message.from_user
-    logger.info("User %s canceled the conversation.", user.first_name)
-    update.message.reply_text('Bye! I hope we can talk again some day.',
-                              reply_markup=ReplyKeyboardRemove())
-
-    return ConversationHandler.END
 
 if __name__ == '__main__':
     # for test purposes limit global throughput to 3 messages per 3 seconds
@@ -73,14 +39,7 @@ if __name__ == '__main__':
     mqbot = MQBot(config.TOKEN, request=request, mqueue=q)
     upd = telegram.ext.updater.Updater(bot=mqbot, use_context=True)
 
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start',start)],
-        states={
-            SEX: [MessageHandler(Filters.regex('^(Men|Women)$'), sex)]
-        },
 
-        fallbacks=[CommandHandler('cancel', cancel)]
-    )
-    upd.dispatcher.add_handler(conv_handler)
+    upd.dispatcher.add_handler(get_conv_handler())
 
     upd.start_polling()
