@@ -1,3 +1,14 @@
+{
+'id': 782172028,
+'first_name': 'Artur',
+'is_bot': False,
+'last_name': 'Galimsky',
+'username': 'galimskyy',
+'language_code': 'ru'
+}
+
+
+
 Пользователь:
     отправляет сообщение (например start)
     его id записывается в database
