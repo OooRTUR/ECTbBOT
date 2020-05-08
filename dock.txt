@@ -1,0 +1,37 @@
+Пользователь:
+    отправляет сообщение (например start)
+    его id записывается в database
+
+    далее в интерактивном текстовом меню пользователю предлагается ввести свои данные:
+        возраст
+        пол
+        вес
+
+    на основании этих данных сразу же генерируется возможная программа питания
+
+
+База данных:
+    ПОЛЬЗОВАТЕЛЬ
+        данные:
+            id
+            telegram_id
+            age
+            sex
+            date_created
+            weight
+        методы:
+            get_req_callories(age,sex,weight) -> float
+            get_menu(req_calories: float, category: КАТЕГОРИЯ_ПРИЕМА)
+                КАТЕГОРИЯ_ПРИЕМА.get_req_callories()
+                АЛГО: "Алгоритм подбора блюд в соответствии с их категорией"
+
+    ПРОДУКТ
+        name
+        callories
+        category = КАТЕГОРИЯ_ПРИЕМА
+
+
+    КАТЕГОРИЯ_ПРИЕМА
+        name = 'ужин/обед/завтрак/перекус'
+        callories_ratio
+        get_req_callories(req_calories: float, self.callories_ratio) -> float
