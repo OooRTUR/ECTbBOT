@@ -1,12 +1,6 @@
-import config
-import sys
-import telegram.bot
 import logging
-from mqwrapper import MQBot
-from telegram.ext import messagequeue as mq
-from telegram.ext import MessageHandler, Filters, CommandHandler, CallbackContext, ConversationHandler
+from telegram.ext import MessageHandler, Filters, CommandHandler, ConversationHandler
 from telegram import Update, User, ReplyKeyboardRemove, ReplyKeyboardMarkup
-from telegram.utils.request import Request
 import user
 from datetime import datetime
 from utils import serialize_datetime

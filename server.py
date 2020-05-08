@@ -4,15 +4,9 @@ import telegram.bot
 import logging
 from mqwrapper import MQBot
 from telegram.ext import messagequeue as mq
-from telegram.ext import MessageHandler, Filters, CommandHandler, CallbackContext, ConversationHandler
-from telegram import Update, User, ReplyKeyboardRemove, ReplyKeyboardMarkup
 from telegram.utils.request import Request
-import user
-from datetime import datetime
-from utils import serialize_datetime
 from user_conv_start import get_conv_handler
 
-# SEX, AGE, WEIGHT, HEIGHT = range(4)
 
 
 formatstr = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
